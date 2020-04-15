@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Shirokuiu/217599-typoteka-3#readme",
   "devDependencies": {
+    "dateformat": "3.0.3",
     "eslint": "6.8.0",
     "eslint-config-htmlacademy": "0.5.2"
   }
