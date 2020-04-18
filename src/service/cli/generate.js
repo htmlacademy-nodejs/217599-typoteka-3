@@ -36,7 +36,7 @@ const readContent = async (filePath) => {
   }
 };
 
-const getContent = async (...cb) => await Promise.all([...cb]);
+const getContent = async (...cb) => Promise.all([...cb]);
 
 const generateBlogs = (count, titles, descriptions, categories) => (
   Array(count).fill({}).map(() => ({
