@@ -1,7 +1,9 @@
 'use strict';
 
 const dateFormat = require(`dateformat`);
-const fs = require(`fs`);
+const chalk = require(`chalk`);
+const fs = require(`fs`).promises;
+
 const {getRandomInt, shuffle} = require(`../../utils`);
 const {ExitCode} = require(`../../constants`);
 
@@ -80,24 +82,23 @@ const generateBlogs = (count) => (
 
 module.exports = {
   name: `--generate`,
-  run(count) {
+  async run(count) {
     const userCount = parseInt(count, 10) || DEFAULT_COUNT;
 
     if (userCount > MaxCount.blog) {
-      console.log(`Не больше ${MaxCount.blog} публикаций`);
+      console.log(chalk.red(`Не больше ${MaxCount.blog} публикаций`));
       process.exit(ExitCode.error);
     }
 
     const content = JSON.stringify(generateBlogs(userCount), null, ` `);
 
-    fs.writeFile(FILE_NAME, content, (err) => {
-      if (err) {
-        console.log(`Can't write data to file...`);
-        process.exit(ExitCode.error);
-      }
-
-      console.log(`Operation success. File created.`);
+    try {
+      await fs.writeFile(FILE_NAME, content);
+      console.log(chalk.green(`Operation success. File created.`));
       process.exit(ExitCode.success);
-    });
+    } catch (err) {
+      console.log(chalk.red(`Can't write data to file...`));
+      process.exit(ExitCode.error);
+    }
   }
 };
