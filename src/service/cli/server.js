@@ -6,7 +6,7 @@ const chalk = require(`chalk`);
 
 const {HTTP_CODE} = require(`../../constants`);
 
-const FILE_PATH = `mocks.json`;
+const FILE_NAME = `mocks.json`;
 const DEFAULT_PORT = 3000;
 const CONTENT_TYPE = Object.freeze({
   HTML: {
@@ -34,13 +34,13 @@ const onClientConnect = async (req, res) => {
   switch (req.url) {
     case `/`:
       try {
-        const fileContent = await fs.readFile(FILE_PATH, `utf8`);
+        const fileContent = await fs.readFile(FILE_NAME, `utf8`);
         const mocks = JSON.parse(fileContent);
         const message = mocks.map((post) => `<li>${post.title}</li>`).join(``);
 
         sendResponse(res, HTTP_CODE.OK, `<ul>${message}</ul>`);
       } catch (err) {
-        console.error(chalk.red(`Возникла ошибка при считывании файла`));
+        console.error(chalk.red(`Возникла ошибка при чтении файла ${FILE_NAME}`));
         console.error(err);
         sendResponse(res, HTTP_CODE.NOT_FOUND, notFoundMessage);
       }
