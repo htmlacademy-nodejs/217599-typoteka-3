@@ -7,7 +7,7 @@ const {FILE_NAME, HTTP_CODE} = require(`../../constants`);
 
 const postsRouter = new Router();
 
-postsRouter.get(`/posts`, async (req, res) => {
+postsRouter.get(`/`, async (req, res) => {
   try {
     const fileContent = await fs.readFile(FILE_NAME, `utf8`);
     const mocks = JSON.parse(fileContent);

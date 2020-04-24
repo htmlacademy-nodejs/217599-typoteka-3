@@ -13,7 +13,7 @@ app.set(`json spaces`, 2);
 
 app.use(express.json());
 
-app.use(`/`, postsRoutes);
+app.use(`/posts`, postsRoutes);
 app.use((req, res) => {
   res.status(HTTP_CODE.NOT_FOUND).send(NOT_FOUND_MESSAGE);
 });
