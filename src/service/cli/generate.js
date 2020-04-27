@@ -3,20 +3,18 @@
 const dateFormat = require(`dateformat`);
 const chalk = require(`chalk`);
 const fs = require(`fs`).promises;
+const {nanoid} = require(`nanoid`);
 
-const {getRandomInt, shuffle} = require(`../../utils`);
-const {ExitCode} = require(`../../constants`);
+const {getRandomInt, shuffle, runParallel, parseTXTFile} = require(`../../utils`);
+const {ExitCode, ID_SIZE, FILE_PATH, MOCKS_FILE_NAME} = require(`../../constants`);
 
-const FILE_NAME = `mocks.json`;
-const FILE_TITLES_PATH = `./data/titles.txt`;
-const FILE_DESCRIPTIONS_PATH = `./data/descriptions.txt`;
-const FILE_CATEGORIES_PATH = `./data/categories.txt`;
 const DEFAULT_COUNT = 1;
 const MAX_MONTH_RANGE = 3;
 const MAX_COUNT = Object.freeze({
   BLOG: 1000,
   CATEGORY: 9,
-  ANNOUNCE: 5
+  ANNOUNCE: 5,
+  COMMENTS: 9
 });
 
 const calculateRandomDate = (dateRange) => {
@@ -26,29 +24,18 @@ const calculateRandomDate = (dateRange) => {
   return dateFormat(randomMonth, `yyyy-mm-dd HH:MM:ss`);
 };
 
-const readContent = async (filePath) => {
-  try {
-    const content = await fs.readFile(filePath, `utf8`);
-
-    if (!content.trim().length) {
-      throw new Error(`Файл пуст`);
-    }
-
-    return content.trim().split(`\n`);
-  } catch (err) {
-    throw err;
-  }
-};
-
-const runParallel = async (...cb) => Promise.all([...cb]);
-
-const generateBlogs = (count, titles, descriptions, categories) => (
+const generateBlogs = (count, titles, descriptions, categories, usersComments) => (
   Array(count).fill({}).map(() => ({
+    id: nanoid(ID_SIZE),
     title: shuffle(titles)[getRandomInt(0, MAX_COUNT.CATEGORY)],
     createdDate: calculateRandomDate(getRandomInt(0, MAX_MONTH_RANGE)),
     announce: shuffle(descriptions).slice(1, MAX_COUNT.ANNOUNCE).join(` `),
     fullText: shuffle(descriptions).slice(1, descriptions.length).join(` `),
-    category: shuffle(categories).slice(0, getRandomInt(1, MAX_COUNT.CATEGORY))
+    category: shuffle(categories).slice(0, getRandomInt(1, MAX_COUNT.CATEGORY)),
+    comments: shuffle(usersComments).map(() => ({
+      id: nanoid(ID_SIZE),
+      text: shuffle(usersComments).slice(1, 3).join(` `)
+    })).slice(0, getRandomInt(0, MAX_COUNT.COMMENTS))
   }))
 );
 
@@ -64,13 +51,14 @@ module.exports = {
 
     try {
       const content = await runParallel(
-          readContent(FILE_TITLES_PATH),
-          readContent(FILE_DESCRIPTIONS_PATH),
-          readContent(FILE_CATEGORIES_PATH)
-      ).then(([titles, descriptions, categories]) => JSON
-        .stringify(generateBlogs(userCount, titles, descriptions, categories), null, ` `));
+          parseTXTFile(FILE_PATH.TITLES),
+          parseTXTFile(FILE_PATH.DESCRIPTIONS),
+          parseTXTFile(FILE_PATH.CATEGORIES),
+          parseTXTFile(FILE_PATH.COMMENTS)
+      ).then(([titles, descriptions, categories, comments]) => JSON
+        .stringify(generateBlogs(userCount, titles, descriptions, categories, comments), null, ` `));
 
-      await fs.writeFile(FILE_NAME, content);
+      await fs.writeFile(MOCKS_FILE_NAME, content);
       console.log(chalk.green(`Operation success. File created.`));
 
       process.exit(ExitCode.success);
