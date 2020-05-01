@@ -56,11 +56,14 @@ const parseTXTFile = async (filePath) => {
 const compareArrayToAnotherArray = (arr, masterArr) =>
   Boolean(arr.filter((item) => masterArr.indexOf(item) === -1).length);
 
+const checkDuplicateInArray = (arr) => arr.some((item, idx) => arr.indexOf(item) !== idx);
+
 module.exports = {
   getRandomInt,
   shuffle,
   runParallel,
   parseTXTFile,
   parseJSONFile,
-  compareArrayToAnotherArray
+  compareArrayToAnotherArray,
+  checkDuplicateInArray
 };

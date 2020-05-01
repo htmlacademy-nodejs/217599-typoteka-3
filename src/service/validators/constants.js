@@ -3,32 +3,47 @@
 const VALID_REQUEST_TEMPLATE = {
   ARTICLE: {
     POST: {
-      description: ``,
       picture: ``,
       title: ``,
-      type: ``,
-      sum: 0,
-      category: []
+      createdDate: 0,
+      category: [],
+      announce: ``,
+      fullText: ``
     },
     PUT: {
-      description: ``,
       picture: ``,
       title: ``,
-      type: ``,
-      sum: 0,
-      category: []
+      createdDate: 0,
+      category: [],
+      announce: ``,
+      fullText: ``
     }
   },
   COMMENT: {
     POST: {
+      avatar: ``,
+      user: ``,
       text: ``
     }
   },
   SEARCH: {
-    query: ``
+    QUERY: {
+      query: ``
+    }
   }
 };
 
+const ERROR_TEMPLATE = {
+  errors: []
+};
+
+const REQUEST_PARAM = {
+  BODY: `body`,
+  QUERY: `query`
+};
+
 module.exports = {
-  VALID_REQUEST_TEMPLATE
+  VALID_REQUEST_TEMPLATE,
+  ERROR_TEMPLATE,
+  REQUEST_PARAM
 };

@@ -1,0 +1,46 @@
+POST http://localhost:3000/api/articles
+Content-Type: application/json
+
+{
+  "title": "Заголовок. Обязательное поле. Минимум 30 символов. Максимум 250",
+  "picture": "picture.jpg",
+  "createdDate": 1588271113570,
+  "category": [
+    "IT"
+  ],
+  "announce": "Текст заголовка. Минимум 30 символов",
+  "fullText": "Тест полного текста"
+}
+
+###
+
+POST http://localhost:3000/api/articles/2xgi5X/comments
+Content-Type: application/json
+
+{
+  "avatar": "avatar.jpg",
+  "user": "user user",
+  "text": "Текст нового сообщения"
+}
+
+###
+
+PUT http://localhost:3000/api/articles/sUpe0T
+Content-Type: application/json
+
+{
+  "title": "Заголовок. Отредактирован чтобы в нем было допустимое количество символов",
+  "announce": "Анонс отредактирован. Отредактирован чтобы в нем было допустимое количество символов"
+}
+
+###
+
+DELETE http://localhost:3000/api/articles/6GguFQ
+Content-Type: application/json
+
+###
+
+DELETE http://localhost:3000/api/articles/6GguFQ/comments/l8PUX5
+Content-Type: application/json
+
+###

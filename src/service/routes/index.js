@@ -1,7 +1,11 @@
 'use strict';
 
-const articlesRoutes = require(`./articles-routes`);
+const articleRoutes = require(`./article-routes`);
+const categoryRoutes = require(`./category-routes`);
+const searchRoutes = require(`./search-routes`);
 
 module.exports = {
-  articlesRoutes
+  articleRoutes,
+  categoryRoutes,
+  searchRoutes
 };
