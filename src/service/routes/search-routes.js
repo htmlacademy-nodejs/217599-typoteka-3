@@ -12,7 +12,7 @@ searchRouter.get(`/`,
     validateBySchema(searchSchemaQuery),
     (req, res, next) => validate(req, res, next, {
       req: REQUEST_PARAM.QUERY,
-      tmp: VALID_REQUEST_TEMPLATE.SEARCH.QUERY
+      tmp: VALID_REQUEST_TEMPLATE.SEARCH.QUERY.GET
     }),
     (req, res, next) => {
       try {

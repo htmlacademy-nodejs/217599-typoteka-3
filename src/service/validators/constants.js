@@ -28,7 +28,9 @@ const VALID_REQUEST_TEMPLATE = {
   },
   SEARCH: {
     QUERY: {
-      query: ``
+      GET: {
+        query: ``
+      }
     }
   }
 };
