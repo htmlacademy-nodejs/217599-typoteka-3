@@ -33,10 +33,6 @@ const VALID_REQUEST_TEMPLATE = {
   }
 };
 
-const ERROR_TEMPLATE = {
-  errors: []
-};
-
 const REQUEST_PARAM = {
   BODY: `body`,
   QUERY: `query`
@@ -44,6 +40,5 @@ const REQUEST_PARAM = {
 
 module.exports = {
   VALID_REQUEST_TEMPLATE,
-  ERROR_TEMPLATE,
   REQUEST_PARAM
 };
