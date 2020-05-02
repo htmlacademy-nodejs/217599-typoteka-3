@@ -28,7 +28,7 @@ const validate = (req, res, next, options = {
     // NOTE [@Shirokuiu]: Соответствует ли body клиента валидному шаблону
     if (hasInvalidTmp) {
       extractedErrors = {
-        invalid: compareArrayToAnotherArray(reqTmpArr, validTmpArr).map((item, idx) => ({
+        invalid: compareArrayToAnotherArray(reqTmpArr, validTmpArr).map((item) => ({
           key: item,
           value: req[options.req || REQUEST_PARAM.BODY][item]
         })),

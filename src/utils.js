@@ -64,7 +64,7 @@ const uniqueObjArr = (arr, key) => {
     if (tmpArray.indexOf(item[key]) === -1) {
       tmpArray.push(item[key]);
 
-      return true
+      return true;
     }
 
     return false;
