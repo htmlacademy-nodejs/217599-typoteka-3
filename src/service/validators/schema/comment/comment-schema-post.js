@@ -6,7 +6,7 @@ const articleSchemaPost = {
       errorMessage: `Поле обязательно`
     },
     isEmpty: {
-      errorMessage: `Укажите аватар`,
+      errorMessage: `Поле не может быть пустым`,
       negated: true,
       options: {
         ignore_whitespace: true // eslint-disable-line camelcase
@@ -19,7 +19,7 @@ const articleSchemaPost = {
       errorMessage: `Поле обязательно`
     },
     isEmpty: {
-      errorMessage: `Укажите аватар`,
+      errorMessage: `Поле не может быть пустым`,
       negated: true,
       options: {
         ignore_whitespace: true // eslint-disable-line camelcase

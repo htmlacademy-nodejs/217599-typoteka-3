@@ -3,33 +3,33 @@
 const VALID_REQUEST_TEMPLATE = {
   ARTICLE: {
     POST: {
-      picture: ``,
-      title: ``,
-      createdDate: 0,
+      picture: `STRING`,
+      title: `STRING`,
+      createdDate: `TIMESTAMP`,
       category: [],
-      announce: ``,
-      fullText: ``
+      announce: `STRING`,
+      fullText: `STRING`
     },
     PUT: {
-      picture: ``,
-      title: ``,
-      createdDate: 0,
+      picture: `STRING`,
+      title: `STRING`,
+      createdDate: `TIMESTAMP`,
       category: [],
-      announce: ``,
-      fullText: ``
+      announce: `STRING`,
+      fullText: `STRING`
     }
   },
   COMMENT: {
     POST: {
-      avatar: ``,
-      user: ``,
-      text: ``
+      avatar: `STRING`,
+      user: `STRING`,
+      text: `STRING`
     }
   },
   SEARCH: {
     QUERY: {
       GET: {
-        query: ``
+        query: `STRING`
       }
     }
   }

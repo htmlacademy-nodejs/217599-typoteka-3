@@ -8,10 +8,12 @@ const {
   NOT_FOUND_MESSAGE,
   INTERNAL_SERVER_ERROR_MESSAGE,
   mockData,
-  MOCKS_FILE_NAME
+  MOCKS_FILE_NAME,
+  FILE_PATH
 } = require(`../../constants`);
+const {VALID_REQUEST_TEMPLATE} = require(`../validators/constants`);
 const {articleRoutes, categoryRoutes, searchRoutes} = require(`../routes/index`);
-const {parseJSONFile} = require(`../../utils`);
+const {parseJSONFile, parseTXTFile, runParallel} = require(`../../utils`);
 
 const app = express();
 const DEFAULT_PORT = 3000;
@@ -31,22 +33,21 @@ app.use((err, req, res, _next) => {
   console.error(err);
 });
 
-// TODO [@Shirokuiu]: Временное решение
-const createSessionMockData = async (fileName) => {
-  try {
-    mockData.articles = await parseJSONFile(fileName);
-  } catch (err) {
-    mockData.articles = [];
-  }
-};
-
 module.exports = {
   name: `--server`,
   async run(customPort) {
     const port = parseInt(customPort, 10) || DEFAULT_PORT;
 
     // TODO [@Shirokuiu]: Временное решение
-    await createSessionMockData(MOCKS_FILE_NAME);
+    await runParallel(
+      parseJSONFile(MOCKS_FILE_NAME),
+      parseTXTFile(FILE_PATH.CATEGORIES)
+    ).then(([articles, categories]) => {
+      mockData.articles = articles;
+      mockData.categories = categories;
+      VALID_REQUEST_TEMPLATE.ARTICLE.POST.category = categories;
+      VALID_REQUEST_TEMPLATE.ARTICLE.PUT.category = categories;
+    });
 
     app.listen(port, () => {
       console.log(chalk.green(`Сервер успешно запущен на ${port} порту: http://localhost:${port}`));

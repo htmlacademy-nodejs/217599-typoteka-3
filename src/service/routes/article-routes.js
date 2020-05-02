@@ -29,7 +29,7 @@ articleRouter.get(`/:articleId`, (req, res, next) => {
     const article = mockData.articles.find(({id}) => articleId === id);
 
     if (!article) {
-      res.status(HTTP_CODE.NOT_FOUND).json([]);
+      res.status(HTTP_CODE.OK).json([]);
 
       return;
     }

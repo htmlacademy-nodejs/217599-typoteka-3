@@ -53,10 +53,23 @@ const parseTXTFile = async (filePath) => {
   }
 };
 
-const compareArrayToAnotherArray = (arr, masterArr) =>
-  Boolean(arr.filter((item) => masterArr.indexOf(item) === -1).length);
+const compareArrayToAnotherArray = (arr, masterArr) => arr.filter((item) => masterArr.indexOf(item) === -1);
 
 const checkDuplicateInArray = (arr) => arr.some((item, idx) => arr.indexOf(item) !== idx);
+
+const uniqueObjArr = (arr, key) => {
+  let tmpArray = [];
+
+  return [...arr].filter((item) => {
+    if (tmpArray.indexOf(item[key]) === -1) {
+      tmpArray.push(item[key]);
+
+      return true
+    }
+
+    return false;
+  });
+};
 
 module.exports = {
   getRandomInt,
@@ -65,5 +78,6 @@ module.exports = {
   parseTXTFile,
   parseJSONFile,
   compareArrayToAnotherArray,
-  checkDuplicateInArray
+  checkDuplicateInArray,
+  uniqueObjArr
 };

@@ -2,19 +2,23 @@
 
 const {Router} = require(`express`);
 
-const {parseTXTFile} = require(`../../utils`);
-const {FILE_PATH, HTTP_CODE} = require(`../../constants`);
+const {HTTP_CODE, mockData} = require(`../../constants`);
 
 const categoryRouter = new Router();
 
-categoryRouter.get(`/`, async (req, res) => {
+categoryRouter.get(`/`, (req, res, next) => {
   try {
-    const categories = await parseTXTFile(FILE_PATH.CATEGORIES);
+    const categories = mockData.categories;
 
-    res.json(categories);
+    if (!categories.length) {
+      res.status(HTTP_CODE.OK).json([]);
+
+      return;
+    }
+
+    res.status(HTTP_CODE.OK).json(categories);
   } catch (err) {
-    console.log(err);
-    res.status(HTTP_CODE.OK).json([]);
+    next(err);
   }
 });
 

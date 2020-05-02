@@ -7,7 +7,8 @@ const NOT_FOUND_MESSAGE = `Not found`;
 const INTERNAL_SERVER_ERROR_MESSAGE = `INTERNAL_SERVER_ERROR`;
 const ID_SIZE = 6;
 const mockData = {
-  articles: []
+  articles: [],
+  categories: []
 };
 const ExitCode = {
   success: 0,

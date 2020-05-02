@@ -63,7 +63,7 @@ const articleSchemaPut = {
 
         const categories = await parseTXTFile(FILE_PATH.CATEGORIES);
         const isDuplicate = checkDuplicateInArray(postCategories);
-        const hasInvalidCategories = compareArrayToAnotherArray(postCategories, categories);
+        const hasInvalidCategories = Boolean(compareArrayToAnotherArray(postCategories, categories).length);
 
         if (isDuplicate) {
           throw new Error(`В категории должны быть уникальные значения`);
