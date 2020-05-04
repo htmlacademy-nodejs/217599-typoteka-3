@@ -30,6 +30,7 @@ articleRouter.get(`/:articleId`, (req, res, next) => {
 
     if (!article) {
       res.status(HTTP_CODE.NOT_FOUND).json({});
+
       return;
     }
 
