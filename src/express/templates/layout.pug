@@ -1,5 +1,10 @@
-include partials/head
-body
-  block content
-  //script(src='/js/vendor.js')
-  //script(src='/js/main.js')
+doctype html
+html(lang='ru')
+  include partials/head
+  body
+    .wrapper
+      include ./partials/header
+      block content
+      include ./partials/footer
+    script(src='/js/vendor.js')
+    script(src='/js/main.js')

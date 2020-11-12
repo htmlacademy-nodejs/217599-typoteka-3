@@ -1,14 +1,13 @@
-extends layout
+extends ./layout
 block content
-  .wrapper-color
-    include partials/header
-    main
-      section.search-page
-        .search-page__wrapper
-          h1 Поиск
-          .search.search-page__form
-            form(action='#', method='get')
-              label
-                input(type='text', placeholder='Что ищем?')
-              button.search__button.button.button--transparent(type='submit') Найти
-    include partials/footer
+  main
+    section.search-page
+      .search-page__wrapper
+        h1 Поиск
+        .search.search-page__form
+          form(action='#', method='get')
+            label
+              input(type='text', placeholder='Что ищем?')
+            button.search__button.button.button--transparent(
+              type='submit'
+            ) Найти

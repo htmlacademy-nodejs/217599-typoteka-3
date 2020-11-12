@@ -1,0 +1,26 @@
+extends ./layout
+block content
+  main.main-page.main-page--padding
+    section.main-page__publication.publication
+      h1.publication__title Комментарии
+      ul.publication__list
+        each article in articles
+          each comment in article.comments
+            li.publication__list-item
+              .publication__header
+                img.publication__list-image(
+                  src='/img/avatar-small-2.png',
+                  width='20',
+                  height='20',
+                  alt='Аватар пользователя'
+                )
+                b.publication__list-name Александр Петров
+                time.publication__item-time(
+                  datetime='2019-03-21T20:33'
+                ) 21.03.2019, 20:33
+              a.publication__item-text(href='#') #{comment.text}
+              p.publication__text-strong #{article.announce}
+              button.publication__button.button.button--close-item(
+                type='button'
+              )
+                span.visually-hidden Закрыть строку списка

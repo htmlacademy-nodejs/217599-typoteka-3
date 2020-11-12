@@ -10,5 +10,5 @@ module.exports = {
     const version = packageJSONFile.version;
 
     console.info(chalk.blue(version));
-  }
+  },
 };
