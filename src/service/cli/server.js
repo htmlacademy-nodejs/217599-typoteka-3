@@ -1,59 +1,52 @@
 'use strict';
 
-const express = require(`express`);
-const chalk = require(`chalk`);
-
-const {
-  HTTP_CODE,
-  NOT_FOUND_MESSAGE,
-  INTERNAL_SERVER_ERROR_MESSAGE,
-  mockData,
-  MOCKS_FILE_NAME,
-  FILE_PATH
-} = require(`../../constants`);
-const {VALID_REQUEST_TEMPLATE} = require(`../validators/constants`);
-const {articleRoutes, categoryRoutes, searchRoutes} = require(`../routes/index`);
-const {parseJSONFile, parseTXTFile, runParallel} = require(`../../utils`);
+const express = require('express');
+const {DefaultPorts, ExitCodes} = require('../../constants');
+const {HTTPCodes, HTTPMessages} = require('../../constants');
+const apiRoutes = require('../api');
+const {getLogger} = require('../lib');
 
 const app = express();
-const DEFAULT_PORT = 3000;
+const logger = getLogger({name: 'api'});
 
-app.set(`json spaces`, 2);
+app.set('json spaces', 2);
 
 app.use(express.json());
 
-app.use(`/api/articles`, articleRoutes);
-app.use(`/api/categories`, categoryRoutes);
-app.use(`/api/search`, searchRoutes);
+app.use('/api', apiRoutes);
+
 app.use((req, res) => {
-  res.status(HTTP_CODE.NOT_FOUND).send(NOT_FOUND_MESSAGE);
+  logger.error(`Route not found: ${req.url}`);
+
+  res
+    .status(HTTPCodes.NotFound)
+    .send(HTTPMessages[HTTPCodes.NotFound]);
 });
+
 app.use((err, req, res, _next) => {
-  res.status(HTTP_CODE.INTERNAL_SERVER_ERROR).send(INTERNAL_SERVER_ERROR_MESSAGE);
-  console.error(err);
+  res
+    .status(HTTPCodes.InternalServerError)
+    .send(HTTPMessages[HTTPCodes.InternalServerError]);
+
+  logger.error(
+    `An error occured on processing request: ${err.message}`,
+  );
 });
 
 module.exports = {
-  name: `--server`,
-  async run(customPort) {
-    const port = parseInt(customPort, 10) || DEFAULT_PORT;
+  name: '--server',
+  run(customPort) {
+    const port = parseInt(customPort, 10) || DefaultPorts.API;
 
-    // TODO [@Shirokuiu]: Временное решение
-    await runParallel(
-        parseJSONFile(MOCKS_FILE_NAME),
-        parseTXTFile(FILE_PATH.CATEGORIES)
-    ).then(([articles, categories]) => {
-      mockData.articles = articles;
-      mockData.categories = categories;
-      VALID_REQUEST_TEMPLATE.ARTICLE.POST.category = categories;
-      VALID_REQUEST_TEMPLATE.ARTICLE.PUT.category = categories;
-    });
+    app.listen(port, (err) => {
+      if (err) {
+        logger.error(`Ошибка при создании сервера: ${err}`);
+        return process.exit(ExitCodes.error);
+      }
 
-    app.listen(port, () => {
-      console.log(chalk.green(`Сервер успешно запущен на ${port} порту: http://localhost:${port}`));
-    }).on(`error`, (err) => {
-      console.error(chalk.red(`Ошибка при создании сервера`));
-      console.error(err);
+      return logger.info(
+        `Ожидаю соединений на ${port}: http://localhost:${port}`,
+      );
     });
-  }
+  },
 };
